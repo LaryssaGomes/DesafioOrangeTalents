@@ -14,14 +14,22 @@ public class SchedulingVehicle {
 	
 	@Autowired
 	private VehicleRepository vehicleRepository;
-	
-	@Scheduled(cron = "0 1 0 ? * MON-FRI")// Executado de segunda a sexta meia-noite e 1 minuto
+	// Executado de segunda a sexta meia-noite e 1 minuto
+	@Scheduled(cron = "0 1 0 ? * MON-FRI")
 	public void run() {
+		// Todos os dados da tabela vehicle
 		List<Vehicle> vehicle = vehicleRepository.findAll();
+		
+		// Obtendo dia da semana atual
 		String dayWeek = new SimpleDateFormat("EEEE").format(new Date());
+		
+		// Percorrendo os dados de vehicle
 		for(Vehicle updateCaster: vehicle) {
+			// Verificando se e ou não dia de rodizio 
 		     if(updateCaster.getDayRotation().equals(dayWeek)) {
 		    	 updateCaster.setActiveRotation(true);
+		     }else {
+		    	 updateCaster.setActiveRotation(false);
 		     }
 		 }
 	    

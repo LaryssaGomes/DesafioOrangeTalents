@@ -8,11 +8,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.orangetalents.api.validation.annotations.UniqueCpf;
 import com.orangetalents.api.validation.annotations.UniqueEmail;
+
 
 public class PersonDTO implements Serializable{
 

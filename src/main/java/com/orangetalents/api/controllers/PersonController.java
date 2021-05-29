@@ -35,9 +35,11 @@ public class PersonController {
 	// Criando person
 	@PostMapping // Definindo método post
 	@ResponseBody 
-	public  ResponseEntity<PersonDTO> create(@Valid @RequestBody PersonDTO personDTO) {
+	public  ResponseEntity<PersonDTO> create(  @RequestBody @Valid PersonDTO personDTO) {
 		//De personDTO para a entidade person
-		System.out.print("----------------------------------------------------");
+		//if (errors.hasErrors()) {
+	     //  return new ResponseEntity(new ApiErrors(errors), HttpStatus.BAD_REQUEST);
+	    //}
 		Person personToSave = personMapper.entity(personDTO);
 		personRepository.save(personToSave);//Salvando dado
 		return new ResponseEntity<>(personDTO , HttpStatus.CREATED);//retornando
@@ -50,5 +52,7 @@ public class PersonController {
 		
 		return new ResponseEntity<>(person , HttpStatus.OK);
 	} 
+	
+	
 }
 

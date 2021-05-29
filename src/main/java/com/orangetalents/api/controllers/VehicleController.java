@@ -34,22 +34,24 @@ public class VehicleController {
 	@Autowired
 	private VehicleRepository vehicleRepository;
 	
+	private final VehicleMapper vehicleMapper = VehicleMapper.get();
+	
+	// Acessando Response api
 	@Autowired
 	private ResponseApi responseApi;
 	
-	private final VehicleMapper vehicleMapper = VehicleMapper.get();
-	
-	
 	@PostMapping
 	@ResponseBody
-	public ResponseEntity<Vehicle> create(@Valid @RequestBody VehicleDTO vehicleDTO, @PathVariable("personId") Long personId) throws VehicleApiFipeNotFoundException {
+	public ResponseEntity<Vehicle> create(@Valid @RequestBody VehicleDTO vehicleDTO, 
+			@PathVariable("personId") Long personId) 
+			throws VehicleApiFipeNotFoundException {
 		
 		Person person =  personRepository.findById(personId).orElse(null);
 		
 		Vehicle vehicleToSave = vehicleMapper.entity(vehicleDTO);
 		vehicleToSave.setPersonId(person);
 		
-		// Vehicle client
+		// Vehicle client obtendo valor
 		vehicleToSave.setValue(responseApi.seachApi(vehicleToSave));
 		
 		// Definindo dia de Rodizio
@@ -62,7 +64,7 @@ public class VehicleController {
 	}
 	
 	private String DayRotation(String year) {
-		
+		// Retirando o ultmo digito do ano e o transformando em string
 		String lastNumberYear = Character.toString(year.charAt(year.length() - 1));
 		String dayWeek = null;
 		switch (lastNumberYear) {
@@ -91,7 +93,9 @@ public class VehicleController {
 	}
 	
 	private Boolean ActiveRotation(String activeRotation) {
+		//Obtendo dia da semana
 		 String dayWeek = new SimpleDateFormat("EEEE").format(new Date());
+		 //Verificando se está ou não ativo
 		 if (dayWeek.equals(activeRotation)){
 			 return true;
 		 }else {
